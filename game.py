@@ -21,6 +21,19 @@ class TicTacToe:
           {} | {} | {}
         """.format(*self.board))
 
+    def clearBoard(self):
+        self.board = [" ", " ", " ", 
+                      " ", " ", " ", 
+                      " ", " ", " "]
+
+    def whoWon(self):
+        if self.checkWin() == "X":
+            return "X"
+        elif self.checkWin() == "O":
+            return "O"
+        elif self.gameOver() == True:
+            return "Nobody"
+
     def availableMoves(self):
         """Return empty spaces on the board"""
         moves = []
@@ -72,7 +85,7 @@ class TicTacToe:
         the best move location.
 
         node - the board
-        depth - how far down the tree to look (works as a simple difficulty level)
+        depth - how far down the tree to look
         player - what player to analyze best move for (currently setup up ONLY for "O")
         """
         if depth == 0 or node.gameOver():
@@ -155,4 +168,4 @@ if __name__ == '__main__':
         game.makeMove(ai_move, "O")
         game.show()
 
-    print("Game Over.")
+    print("Game Over. " + game.whoWon() + " Wins")
