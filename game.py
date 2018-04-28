@@ -138,6 +138,7 @@ def make_best_move(board, depth, player):
 
         if moveValue > neutralValue:
             choices = [move]
+            break
         elif moveValue == neutralValue:
             choices.append(move)
     print("choices: ", choices)
