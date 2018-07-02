@@ -1,9 +1,6 @@
 import random
 
 class TicTacToe:
-    """
-    TicTacToe class
-    """
 
     def __init__(self):
         """Initialize with empty board"""
