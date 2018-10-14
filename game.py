@@ -1,13 +1,14 @@
 import random
 
 class TicTacToe:
-
+    #Initializes the board as a empty 2D array
     def __init__(self):
         """Initialize with empty board"""
-        self.board = [" ", " ", " ", 
-                      " ", " ", " ", 
+        self.board = [" ", " ", " ",
+                      " ", " ", " ",
                       " ", " ", " "]
 
+    #Prints and Formats the board
     def show(self):
         """Format and print board"""
         print("""
@@ -18,11 +19,13 @@ class TicTacToe:
           {} | {} | {}
         """.format(*self.board))
 
+    #Clears the board
     def clearBoard(self):
-        self.board = [" ", " ", " ", 
-                      " ", " ", " ", 
+        self.board = [" ", " ", " ",
+                      " ", " ", " ",
                       " ", " ", " "]
 
+    #Check which won the game
     def whoWon(self):
         if self.checkWin() == "X":
             return "X"
@@ -31,28 +34,28 @@ class TicTacToe:
         elif self.gameOver() == True:
             return "Nobody"
 
+    #Return empty spaces on the board
     def availableMoves(self):
-        """Return empty spaces on the board"""
         moves = []
         for i in range(0, len(self.board)):
             if self.board[i] == " ":
                 moves.append(i)
         return moves
 
+    #Get all moves made by a given player
     def getMoves(self, player):
-        """Get all moves made by a given player"""
         moves = []
         for i in range(0, len(self.board)):
             if self.board[i] == player:
                 moves.append(i)
         return moves
 
+    #Make a move on the board
     def makeMove(self, position, player):
-        """Make a move on the board"""
         self.board[position] = player
 
+    #Return the player that wins the game
     def checkWin(self):
-        """Return the player that wins the game"""
         combos = ([0, 1, 2], [3, 4, 5], [6, 7, 8],
                   [0, 3, 6], [1, 4, 7], [2, 5, 8],
                   [0, 4, 8], [2, 4, 6])
@@ -67,8 +70,8 @@ class TicTacToe:
                 if win:
                     return player
 
+    #Return True if X wins, O wins, or draw, else return False
     def gameOver(self):
-        """Return True if X wins, O wins, or draw, else return False"""
         if self.checkWin() != None:
             return True
         for i in self.board:
@@ -76,16 +79,17 @@ class TicTacToe:
                 return False
         return True
 
-    def minimax(self, node, depth, player):
-        """
-        Recursively analyze every possible game state and choose
-        the best move location.
+    """
+    Recursively analyze every possible game state and choose
+    the best move location.
 
-        node - the board
-        depth - how far down the tree to look
-        player - what player to analyze best move for (currently setup up ONLY for "O")
-        """
+    node - the board
+    depth - how far down the tree to look
+    player - what player to analyze best move for (currently setup up ONLY for "O")
+    """
+    def minimax(self, node, depth, player):
         if depth == 0 or node.gameOver():
+            #Assigns points to every getMoves
             if node.checkWin() == "X":
                 return 0
             elif node.checkWin() == "O":
@@ -95,13 +99,13 @@ class TicTacToe:
 
         if player == "O":
             bestValue = 0
-            for move in node.availableMoves():
-                node.makeMove(move, player)
-                moveValue = self.minimax(node, depth-1, changePlayer(player))
+            for move in node.availableMoves():#Lokks for Empty moves
+                node.makeMove(move, player)#makes a Dummy move
+                moveValue = self.minimax(node, depth-1, changePlayer(player))#Recursively calls the function minimax
                 node.makeMove(move, " ")
-                bestValue = max(bestValue, moveValue)
+                bestValue = max(bestValue, moveValue)#Compares the current moveVale with and bestValue, Assigns the maximum to bestValue
             return bestValue
-        
+
         if player == "X":
             bestValue = 100
             for move in node.availableMoves():
@@ -111,21 +115,21 @@ class TicTacToe:
                 bestValue = min(bestValue, moveValue)
             return bestValue
 
+#Returns the opposite player given any player
 def changePlayer(player):
-    """Returns the opposite player given any player"""
     if player == "X":
         return "O"
     else:
         return "X"
 
-def make_best_move(board, depth, player):
-    """
-    Controllor function to initialize minimax and keep track of optimal move choices
+"""
+Controllor function to initialize minimax and keep track of optimal move choices
 
-    board - what board to calculate best move for
-    depth - how far down the tree to go
-    player - who to calculate best move for (Works ONLY for "O" right now)
-    """
+board - what board to calculate best move for
+depth - how far down the tree to go
+player - who to calculate best move for (Works ONLY for "O" right now)
+"""
+def make_best_move(board, depth, player):
     neutralValue = 50
     choices = []
     for move in board.availableMoves():
