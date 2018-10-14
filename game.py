@@ -8,7 +8,7 @@ class TicTacToe:
                       " ", " ", " ",
                       " ", " ", " "]
 
-    #Prints and Formats the board
+    #Prints and Formats the gameboard
     def show(self):
         """Format and print board"""
         print("""
